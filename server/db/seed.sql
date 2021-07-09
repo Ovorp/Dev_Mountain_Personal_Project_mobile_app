@@ -2,6 +2,7 @@ CREATE TABLE users (
     users_id serial PRIMARY KEY,
     users_first_name VARCHAR(60),
     users_last_name VARCHAR(60),
+    users_email VARCHAR(100),
     users_password VARCHAR(300) NOT NULL,
     phone_number VARCHAR(10)
 );
