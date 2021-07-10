@@ -59,8 +59,16 @@ async function login(req, res) {
   res.status(200).json(req.session.user);
 }
 
-function updateUserInformation(req, res) {
+async function updateUserInformation(req, res) {
   const { firstName, lastName, phoneNumber, email } = req.body;
+
+  const db = req.app.get('db');
+  const findUser = await db.user.find_user_by_email(email);
+  const alreadyUsedEmail = findUser[0].users_email;
+  if (alreadyUsedEmail === email) {
+    res.status(406).json('Please choose another email');
+    return;
+  }
 
   // Need to handle case where there is already that email in the system
   const updatedUser = {
@@ -71,7 +79,6 @@ function updateUserInformation(req, res) {
     id: req.session.user.id,
   };
 
-  const db = req.app.get('db');
   const userInfo = [
     updatedUser.id,
     updatedUser.firstName,
