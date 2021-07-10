@@ -12,7 +12,7 @@ async function register(req, res) {
   const result = await db.user
     .find_user_by_email(email)
     .catch((err) => console.log(err));
-  if (result) {
+  if (result[0]) {
     res.status(406).json('This email is already taken');
     return;
   }
@@ -37,7 +37,7 @@ async function register(req, res) {
 async function login(req, res) {
   const { email, password } = req.body;
   const db = req.app.get('db');
-  const result = await db.user.login(email).catch((err) => console.log(err));
+  const result = await db.user.login(email).catch((err) => console.log('test'));
   const user = result[0];
   if (!user) {
     res.status(404).json('User is not found');
@@ -61,10 +61,12 @@ async function login(req, res) {
 
 function updateUserInformation(req, res) {
   const { firstName, lastName, phoneNumber, email } = req.body;
+
+  // Need to handle case where there is already that email in the system
   const updatedUser = {
     firstName: firstName || req.session.user.firstName,
     lastName: lastName || req.session.user.lastName,
-    phoneNumber: phoneNumber || req.session.user.phoneNumber,
+    phoneNumber: phoneNumber || req.session.user.pWhoneNumber,
     email: email || req.sesssion.user.email,
     id: req.session.user.id,
   };
@@ -93,7 +95,7 @@ async function updatePassword(req, res) {
   const hash = await bcryptjs.hash(password, salt);
 
   db.user
-    .updated_password([userId, hash])
+    .update_password([userId, hash])
     .then(res.status(200).json('Updated password'))
     .catch((err) => console.log(err));
 }
@@ -103,6 +105,16 @@ async function logout(req, res) {
   res.status(200).json('logged out');
 }
 
+function userDatabaseReset(req, res) {
+  const db = req.app.get('db');
+  db.user
+    .reset_users()
+    .then(() => console.log('Database for users has been reset'))
+    .catch((err) => console.log(err));
+
+  res.status(200).json('Database for users has been reset');
+}
+
 module.exports = {
   getTestData,
   register,
@@ -110,6 +122,7 @@ module.exports = {
   updateUserInformation,
   updatePassword,
   login,
+  userDatabaseReset,
 };
 
 //     INSERT INTO users

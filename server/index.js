@@ -9,6 +9,7 @@ const {
   logout,
   updateUserInformation,
   updatePassword,
+  userDatabaseReset,
 } = require('./controllers/users.js');
 const { SERVER_PORT, CONNECTION_STRING, SECRET } = process.env;
 
@@ -48,17 +49,17 @@ function isLoggedIn(req, res, next) {
 
 const USER_API = '/api/users';
 
-// // Creating and logging in new users
-// // Create new users
+// Create new users
 app.post(`${USER_API}/register`, register);
-// // Logging in users
+// Logging in users
 app.get(`${USER_API}/login`, login);
-
-// // Update user information
+// Update user information
 app.put(`${USER_API}/update`, isLoggedIn, updateUserInformation);
 app.put(`${USER_API}/updatepassword`, isLoggedIn, updatePassword);
-// // Log out
+//  Log out
 app.post(`${USER_API}/logout`, logout);
+// To reset the userdatabase for testing
+app.delete(`${USER_API}/reset`, userDatabaseReset);
 
 // // Trip endpoints
 // const TRIP_API = '/api/trip';
