@@ -11,6 +11,7 @@ const {
   updatePassword,
   userDatabaseReset,
 } = require('./controllers/users.js');
+const { addNewTrip } = require('./controllers/trip.js');
 const { SERVER_PORT, CONNECTION_STRING, SECRET } = process.env;
 
 const app = express();
@@ -54,17 +55,19 @@ app.post(`${USER_API}/register`, register);
 // Logging in users
 app.get(`${USER_API}/login`, login);
 // Update user information
-app.put(`${USER_API}/update`, isLoggedIn, updateUserInformation);
-app.put(`${USER_API}/updatepassword`, isLoggedIn, updatePassword);
+app.put(`${USER_API}`, isLoggedIn, updateUserInformation);
+app.put(`${USER_API}/password`, isLoggedIn, updatePassword);
 //  Log out
 app.post(`${USER_API}/logout`, logout);
 // To reset the userdatabase for testing
 app.delete(`${USER_API}/reset`, userDatabaseReset);
 
-// // Trip endpoints
-// const TRIP_API = '/api/trip';
-// // adding new trip, people and todo list, should send things on body
-// app.post();
+// Trip endpoints
+const TRIP_API = `/api/trip`;
+const TO_DO_LIST_API = `/api/toDoList`;
+const PEOPLE_API = `/api/people`;
+// adding new trip, people and todo list, should send things on body
+app.post(`${TRIP_API}`, addNewTrip);
 // app.post();
 // app.post();
 // // getting trip, people and todo list

@@ -1,4 +1,5 @@
 INSERT INTO trip
-(user_id, trip_name)
-VALUE
+(users_id, trip_name)
+VALUES
 ($1, $2)
+RETURNING *;

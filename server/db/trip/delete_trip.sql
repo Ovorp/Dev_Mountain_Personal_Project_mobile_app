@@ -1,2 +1,2 @@
 DELETE FROM trip
-WHERE trip_id = $1
+WHERE trip_id = $1;
