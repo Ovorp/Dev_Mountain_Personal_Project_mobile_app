@@ -11,7 +11,13 @@ const {
   updatePassword,
   userDatabaseReset,
 } = require('./controllers/users.js');
-const { addNewTrip } = require('./controllers/trip.js');
+const {
+  addNewTrip,
+  changeTripName,
+  deleteTrip,
+  resetTripData,
+} = require('./controllers/trip.js');
+const {} = require('./controllers/toDoList.js');
 const { SERVER_PORT, CONNECTION_STRING, SECRET } = process.env;
 
 const app = express();
@@ -75,13 +81,14 @@ app.post(`${TRIP_API}`, addNewTrip);
 // app.get();
 // app.get();
 // app.get();
-// // chaning trip, people and todo list
-// // marking a todo list item as done
+// chaning trip, people and todo list
+// mark?ing a todo list item as done
+app.put(`${TRIP_API}`, changeTripName);
 // app.put();
 // app.put();
-// app.put();
-// // deleting trip, people and todo list
-// app.delete();
+// deleting trip, people and todo list
+app.delete(`${TRIP_API}`, deleteTrip);
+app.delete(`${TRIP_API}/reset`, resetTripData);
 // app.delete();
 // app.delete();
 // // Picture endpoints
