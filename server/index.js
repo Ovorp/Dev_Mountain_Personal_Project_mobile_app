@@ -80,15 +80,26 @@ app.post(`${USER_API}/logout`, logout);
 app.delete(`${USER_API}/reset`, userDatabaseReset);
 
 // Trip endpoints
+app.use(isLoggedIn);
 const TRIP_API = `/api/trip`;
+app.post(`${TRIP_API}`, addNewTrip);
+app.put(`${TRIP_API}`, changeTripName);
+app.delete(`${TRIP_API}`, deleteTrip);
+app.delete(`${TRIP_API}/reset`, resetTripData);
+
 const TO_DO_LIST_API = `/api/toDoList`;
+app.post(`${TO_DO_LIST_API}`, createToDoList);
+app.post(`${TO_DO_LIST_API}/item`, addToDoListItem);
+app.put(`${TO_DO_LIST_API}/item`, updateToDoListItem);
+app.delete(`${TO_DO_LIST_API}/item`, deleteToDoListItem);
+
 const PEOPLE_API = `/api/people`;
+app.post(`${PEOPLE_API}`, addPeople);
+app.post(`${PEOPLE_API}/list`, createsPeopleList);
+app.put(`${PEOPLE_API}`, updatesPeople);
+app.delete(`${PEOPLE_API}`, deletePeople);
+
 // adding new trip, people and todo list, should send things on body
-app.post(`${TRIP_API}`, isLoggedIn, addNewTrip);
-app.post(`${TO_DO_LIST_API}`, isLoggedIn, createToDoList);
-app.post(`${TO_DO_LIST_API}/item`, isLoggedIn, addToDoListItem);
-app.post(`${PEOPLE_API}`, isLoggedIn, addPeople);
-app.post(`${PEOPLE_API}/list`, isLoggedIn, createsPeopleList);
 // // getting trip, people and todo list
 // // might want to think about addin a querey or param to search
 // app.get();
@@ -96,14 +107,7 @@ app.post(`${PEOPLE_API}/list`, isLoggedIn, createsPeopleList);
 // app.get();
 // chaning trip, people and todo list
 // mark?ing a todo list item as done
-app.put(`${TRIP_API}`, isLoggedIn, changeTripName);
-app.put(`${TO_DO_LIST_API}/item`, isLoggedIn, updateToDoListItem);
-app.put(`${PEOPLE_API}`, isLoggedIn, updatesPeople);
 // deleting trip, people and todo list
-app.delete(`${TRIP_API}`, isLoggedIn, deleteTrip);
-app.delete(`${PEOPLE_API}`, isLoggedIn, deletePeople);
-app.delete(`${TRIP_API}/reset`, resetTripData);
-app.delete(`${TO_DO_LIST_API}/item`, isLoggedIn, deleteToDoListItem);
 
 // // Picture endpoints
 
