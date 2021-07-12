@@ -6,7 +6,7 @@ async function addNewTrip(req, res) {
     .add_trip([id, tripName])
     .catch((err) => console.log(err));
 
-  res.status(200).json(trip);
+  res.status(200).json(trip[0]);
 }
 
 async function changeTripName(req, res) {
@@ -16,7 +16,7 @@ async function changeTripName(req, res) {
     .update_trip([tripId, tripName])
     .catch((err) => console.log(err));
   console.log(trip);
-  res.status(200).json(trip);
+  res.status(200).json(trip[0]);
 }
 
 function deleteTrip(req, res) {

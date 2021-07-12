@@ -4,3 +4,4 @@ SET (
     is_done = $3
 )
 WHERE to_do_list_item_id = $1
+RETURNING *;

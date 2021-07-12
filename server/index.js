@@ -17,7 +17,18 @@ const {
   deleteTrip,
   resetTripData,
 } = require('./controllers/trip.js');
-const {} = require('./controllers/toDoList.js');
+const {
+  addToDoListItem,
+  updateToDoListItem,
+  deleteToDoListItem,
+  createToDoList,
+} = require('./controllers/toDoList.js');
+const {
+  addPeople,
+  updatesPeople,
+  deletePeople,
+  createsPeopleList,
+} = require('./controllers/people.js');
 const { SERVER_PORT, CONNECTION_STRING, SECRET } = process.env;
 
 const app = express();
@@ -73,9 +84,11 @@ const TRIP_API = `/api/trip`;
 const TO_DO_LIST_API = `/api/toDoList`;
 const PEOPLE_API = `/api/people`;
 // adding new trip, people and todo list, should send things on body
-app.post(`${TRIP_API}`, addNewTrip);
-// app.post();
-// app.post();
+app.post(`${TRIP_API}`, isLoggedIn, addNewTrip);
+app.post(`${TO_DO_LIST_API}`, isLoggedIn, createToDoList);
+app.post(`${TO_DO_LIST_API}/item`, isLoggedIn, addToDoListItem);
+app.post(`${PEOPLE_API}`, isLoggedIn, addPeople);
+app.post(`${PEOPLE_API}/list`, isLoggedIn, createsPeopleList);
 // // getting trip, people and todo list
 // // might want to think about addin a querey or param to search
 // app.get();
@@ -83,14 +96,15 @@ app.post(`${TRIP_API}`, addNewTrip);
 // app.get();
 // chaning trip, people and todo list
 // mark?ing a todo list item as done
-app.put(`${TRIP_API}`, changeTripName);
-// app.put();
-// app.put();
+app.put(`${TRIP_API}`, isLoggedIn, changeTripName);
+app.put(`${TO_DO_LIST_API}/item`, isLoggedIn, updateToDoListItem);
+app.put(`${PEOPLE_API}`, isLoggedIn, updatesPeople);
 // deleting trip, people and todo list
-app.delete(`${TRIP_API}`, deleteTrip);
+app.delete(`${TRIP_API}`, isLoggedIn, deleteTrip);
+app.delete(`${PEOPLE_API}`, isLoggedIn, deletePeople);
 app.delete(`${TRIP_API}/reset`, resetTripData);
-// app.delete();
-// app.delete();
+app.delete(`${TO_DO_LIST_API}/item`, isLoggedIn, deleteToDoListItem);
+
 // // Picture endpoints
 
 // const PICTURE_API = '/api/picture';

@@ -32,12 +32,12 @@ CREATE TABLE to_do_list_item (
 
 CREATE TABLE people_list (
     people_list_id serial PRIMARY KEY,
+    people_id int REFERENCES people(people_id)
     trip_id int REFERENCES trip(trip_id)
 );
 
 CREATE TABLE people (
     people_id serial PRIMARY KEY,
-    people_list_id int REFERENCES people_list(people_list_id),
     first_name VARCHAR(60),
     last_name VARCHAR(60),
     email VARCHAR(100),
