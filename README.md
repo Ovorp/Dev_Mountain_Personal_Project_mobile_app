@@ -5,3 +5,4 @@ Need to change the trip addNewTrip contoller function to get the id from session
 look to see what functionality can be moved to the server. For example if you need to remove a person from a trip, instead of storing the person list id in state I can write a endpoint that runs a get to find the people list id and then deletes it.
 
 added access to my work computer
+Testing git config
