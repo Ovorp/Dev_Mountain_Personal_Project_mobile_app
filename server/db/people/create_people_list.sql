@@ -1,4 +1,4 @@
 INSERT INTO people_list
 (trip_id, people_id)
-VALUE
+VALUES
 ($1, $2);

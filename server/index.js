@@ -28,6 +28,7 @@ const {
   updatesPeople,
   deletePeople,
   createsPeopleList,
+  updatePeopleList,
 } = require('./controllers/people.js');
 const { SERVER_PORT, CONNECTION_STRING, SECRET } = process.env;
 
@@ -79,15 +80,15 @@ app.post(`${USER_API}/logout`, logout);
 // To reset the userdatabase for testing
 app.delete(`${USER_API}/reset`, userDatabaseReset);
 
+const TRIP_API = `/api/trip`;
+app.delete(`${TRIP_API}/reset`, resetTripData);
 // Trip endpoints
 app.use(isLoggedIn);
-const TRIP_API = `/api/trip`;
 app.post(`${TRIP_API}`, addNewTrip);
 app.put(`${TRIP_API}`, changeTripName);
 app.delete(`${TRIP_API}`, deleteTrip);
-app.delete(`${TRIP_API}/reset`, resetTripData);
 
-const TO_DO_LIST_API = `/api/toDoList`;
+const TO_DO_LIST_API = `/api/todolist`;
 app.post(`${TO_DO_LIST_API}`, createToDoList);
 app.post(`${TO_DO_LIST_API}/item`, addToDoListItem);
 app.put(`${TO_DO_LIST_API}/item`, updateToDoListItem);
@@ -97,6 +98,7 @@ const PEOPLE_API = `/api/people`;
 app.post(`${PEOPLE_API}`, addPeople);
 app.post(`${PEOPLE_API}/list`, createsPeopleList);
 app.put(`${PEOPLE_API}`, updatesPeople);
+app.put(`${PEOPLE_API}/list`, updatePeopleList);
 app.delete(`${PEOPLE_API}`, deletePeople);
 
 // adding new trip, people and todo list, should send things on body

@@ -9,6 +9,8 @@ async function addPeople(req, res) {
     phoneNumber,
   ]);
 
+  console.log(person);
+
   res.status(200).json(person[0]);
 }
 
@@ -19,12 +21,13 @@ async function updatesPeople(req, res) {
   const oldPerson = await db.people
     .get_people_by_id(peopleId)
     .catch((err) => console.log(err));
-  const { first_name, last_name, phone_number } = oldPerson;
+  console.log(oldPerson);
+  const { first_name, last_name, phone_number } = oldPerson[0];
 
   const newPerson = {
     firstName: firstName || first_name,
     lastName: lastName || last_name,
-    email: email || oldPerson.email,
+    email: email || oldPerson[0].email,
     phoneNumber: phoneNumber || phone_number,
   };
 
@@ -36,7 +39,7 @@ async function updatesPeople(req, res) {
     newPerson.phoneNumber,
   ]);
 
-  res.status(200).json(newPeople);
+  res.status(200).json(newPeople[0]);
 }
 
 function deletePersonList(req, res) {}
@@ -62,4 +65,22 @@ function createsPeopleList(req, res) {
     .catch((err) => console.log(err));
 }
 
-module.exports = { addPeople, updatesPeople, deletePeople, createsPeopleList };
+async function updatePeopleList(req, res) {
+  const { peopleId, tripId, newTripId } = req.body;
+  const db = req.app.get('db');
+
+  const newList = await db.people
+    .update_people_list([tripId, peopleId, newTripId])
+    .catch((err) => console.log(err));
+
+  console.log(newList);
+  res.status(200).json(newList);
+}
+
+module.exports = {
+  addPeople,
+  updatesPeople,
+  deletePeople,
+  createsPeopleList,
+  updatePeopleList,
+};
