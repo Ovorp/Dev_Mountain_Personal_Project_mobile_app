@@ -22,6 +22,7 @@ const {
   updateToDoListItem,
   deleteToDoListItem,
   createToDoList,
+  resetToDo,
 } = require('./controllers/toDoList.js');
 const {
   addPeople,
@@ -29,6 +30,7 @@ const {
   deletePeople,
   createsPeopleList,
   updatePeopleList,
+  resetPeople,
 } = require('./controllers/people.js');
 const { SERVER_PORT, CONNECTION_STRING, SECRET } = process.env;
 
@@ -67,6 +69,17 @@ function isLoggedIn(req, res, next) {
 }
 
 const USER_API = '/api/users';
+const TRIP_API = `/api/trip`;
+const TO_DO_LIST_API = `/api/todolist`;
+const PEOPLE_API = `/api/people`;
+
+//reset endpoint only for testing do not normally use
+app.delete(`${USER_API}/reset`, userDatabaseReset);
+app.delete(`${TRIP_API}/reset`, resetTripData);
+app.delete(`${TO_DO_LIST_API}/reset`, resetToDo);
+app.delete(`${PEOPLE_API}/reset`, resetPeople);
+
+//See above
 
 // Create new users
 app.post(`${USER_API}/register`, register);
@@ -78,23 +91,18 @@ app.put(`${USER_API}/password`, isLoggedIn, updatePassword);
 //  Log out
 app.post(`${USER_API}/logout`, logout);
 // To reset the userdatabase for testing
-app.delete(`${USER_API}/reset`, userDatabaseReset);
 
-const TRIP_API = `/api/trip`;
-app.delete(`${TRIP_API}/reset`, resetTripData);
 // Trip endpoints
 app.use(isLoggedIn);
 app.post(`${TRIP_API}`, addNewTrip);
 app.put(`${TRIP_API}`, changeTripName);
 app.delete(`${TRIP_API}`, deleteTrip);
 
-const TO_DO_LIST_API = `/api/todolist`;
 app.post(`${TO_DO_LIST_API}`, createToDoList);
 app.post(`${TO_DO_LIST_API}/item`, addToDoListItem);
 app.put(`${TO_DO_LIST_API}/item`, updateToDoListItem);
 app.delete(`${TO_DO_LIST_API}/item`, deleteToDoListItem);
 
-const PEOPLE_API = `/api/people`;
 app.post(`${PEOPLE_API}`, addPeople);
 app.post(`${PEOPLE_API}/list`, createsPeopleList);
 app.put(`${PEOPLE_API}`, updatesPeople);

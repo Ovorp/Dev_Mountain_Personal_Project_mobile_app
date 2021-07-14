@@ -77,10 +77,19 @@ async function updatePeopleList(req, res) {
   res.status(200).json(newList);
 }
 
+function resetPeople(req, res) {
+  const db = req.app.get('db');
+  db.people
+    .reset_people()
+    .then(() => res.status(200).json('people has been reset'))
+    .catch((err) => console.log(err));
+}
+
 module.exports = {
   addPeople,
   updatesPeople,
   deletePeople,
   createsPeopleList,
   updatePeopleList,
+  resetPeople,
 };

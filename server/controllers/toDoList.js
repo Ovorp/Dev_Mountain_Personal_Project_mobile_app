@@ -49,9 +49,19 @@ function deleteToDoListItem(req, res) {
     )
     .catch((err) => console.log(err));
 }
+
+function resetToDo(req, res) {
+  const db = req.app.get('db');
+  db.to_do_list
+    .reset_to_do_list()
+    .then(() => res.status(200).json('To do has been reset'))
+    .catch((err) => console.log(err));
+}
+
 module.exports = {
   createToDoList,
   addToDoListItem,
   updateToDoListItem,
   deleteToDoListItem,
+  resetToDo,
 };
