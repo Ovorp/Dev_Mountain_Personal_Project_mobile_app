@@ -2,6 +2,9 @@ require('dotenv').config();
 const express = require('express');
 const massive = require('massive');
 const session = require('express-session');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
+
 const {
   getTestData,
   register,
@@ -32,6 +35,12 @@ const {
   updatePeopleList,
   resetPeople,
 } = require('./controllers/people.js');
+const {
+  uploadImage,
+  getImage,
+  deleteImage,
+} = require('./controllers/images.js');
+// const { IAM } = require('aws-sdk');  Dont think i need this
 const { SERVER_PORT, CONNECTION_STRING, SECRET } = process.env;
 
 const app = express();
@@ -68,6 +77,12 @@ function isLoggedIn(req, res, next) {
   next();
 }
 
+const IMAGE_API = '/api/image';
+
+app.post(IMAGE_API, upload.single('image'), uploadImage);
+app.get(`${IMAGE_API}/:key`, getImage);
+app.delete(`${IMAGE_API}/:key`, deleteImage);
+
 const USER_API = '/api/users';
 const TRIP_API = `/api/trip`;
 const TO_DO_LIST_API = `/api/todolist`;
@@ -78,7 +93,7 @@ app.delete(`${USER_API}/reset`, userDatabaseReset);
 app.delete(`${TRIP_API}/reset`, resetTripData);
 app.delete(`${TO_DO_LIST_API}/reset`, resetToDo);
 app.delete(`${PEOPLE_API}/reset`, resetPeople);
-
+app.get('/api/test', getTestData);
 //See above
 
 // Create new users
@@ -122,7 +137,5 @@ app.delete(`${PEOPLE_API}`, deletePeople);
 // // Picture endpoints
 
 // const PICTURE_API = '/api/picture';
-
-app.get('/api/test', getTestData);
 
 app.listen(SERVER_PORT, () => console.log(`Running on port ${SERVER_PORT}`));
