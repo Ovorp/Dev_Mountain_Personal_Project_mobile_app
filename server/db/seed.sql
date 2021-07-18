@@ -9,7 +9,8 @@ CREATE TABLE users (
 
 CREATE TABLE users_picture (
     users_picture_id serial PRIMARY KEY,
-    users_id int REFERENCES users(users_id)
+    users_id int REFERENCES users(users_id),
+    users_picture_key VARCHAR(300) NOT NULL,
 );
 
 CREATE TABLE trip (
@@ -45,8 +46,10 @@ CREATE TABLE people (
 
 );
 
-CREATE TABLE pictures (
+CREATE TABLE picture (
     picture_id serial PRIMARY KEY,
     trip_id int REFERENCES trip(trip_id),
-    users_id int REFERENCES users(users_id)
+    users_id int REFERENCES users(users_id),
+    picture_key VARCHAR(300) NOT NULL,
+    picture_description VARCHAR(300)
 )

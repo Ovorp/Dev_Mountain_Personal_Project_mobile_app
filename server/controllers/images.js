@@ -6,15 +6,16 @@ const unlinkImageFile = util.promisify(fs.unlink);
 
 async function uploadImage(req, res) {
   const imageFile = req.file;
-  console.log(req.body);
+  const db = req.app.get('db');
   const result = await uploadToS3(imageFile).catch((err) =>
     console.log(err, '!!!UploadImage!!!')
   );
   await unlinkImageFile(imageFile.path);
+  // await db.picture.add_picture([])
   console.log(result);
   const description = req.body.description;
   res.status(200).json({
-    imagePath: result.key,
+    imageKey: result.key,
     imageLocation: result.Location,
     imageDescription: description,
   });
