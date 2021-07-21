@@ -1,0 +1,12 @@
+.mainNav {
+  position: fixed;
+  background-color: #053742;
+  color: #e8f0f2;
+  left: 0;
+  top: 0;
+  width: 15rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

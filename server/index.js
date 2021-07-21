@@ -99,7 +99,7 @@ app.get('/api/test', getTestData);
 // Create new users
 app.post(`${USER_API}/register`, register);
 // Logging in users
-app.get(`${USER_API}/login`, login);
+app.post(`${USER_API}/login`, login);
 // Update user information
 app.put(`${USER_API}`, isLoggedIn, updateUserInformation);
 app.put(`${USER_API}/password`, isLoggedIn, updatePassword);
