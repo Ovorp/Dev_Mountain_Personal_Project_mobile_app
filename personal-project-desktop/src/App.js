@@ -27,9 +27,12 @@ function App() {
         <Button variant="dark">Dark</Button>{' '}
         <Button variant="link">Link</Button> */}
         <NavBar />
-        {/* <ImageForm /> */}
+
         {/* <Journal /> */}
-        {routes}
+        <div className="home">
+          {/* Need to add some styles to this div so everything looks the same  */}
+          {routes}
+        </div>
       </div>
     </HashRouter>
   );

@@ -3,12 +3,15 @@ import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function logInUser(email, password) {
   axios
     .post('api/users/login', { email, password })
     .then((res) => console.log(res))
     .catch((err) => console.log(err));
+
+  console.log('logged in');
 }
 
 function test() {
@@ -22,10 +25,8 @@ export default function Login() {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
 
-  console.log(userEmail, userPassword);
   return (
     <>
-      <button onClick={test}>Test</button>
       <Form>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
@@ -56,6 +57,16 @@ export default function Login() {
           Submit
         </Button>
       </Form>
+      <br />
+      <br />
+      <br />
+      {/* need to change this  */}
+      <div>
+        <h2>Are you new?</h2>
+        <Link to="/newuser">
+          <Button variant="primary">Register</Button>
+        </Link>
+      </div>
     </>
   );
 }

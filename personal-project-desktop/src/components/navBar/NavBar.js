@@ -12,7 +12,7 @@ export default function NavBar() {
           Home
         </Nav.Link>
 
-        <Nav.Link href="#/journal" keventKey="journal">
+        <Nav.Link href="#/journal" eventKey="journal">
           Journal
         </Nav.Link>
 

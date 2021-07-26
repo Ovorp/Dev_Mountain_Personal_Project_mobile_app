@@ -7,9 +7,9 @@ import Login from './components/login/Login';
 export default function Home() {
   const [loggedIn, setIsLoggedIn] = useState(false);
   return (
-    <div className="home">
+    <div>
       <h1>Welcome App Please log in</h1>
-      {!loggedIn ? <Login /> : <h2>You need to sign up</h2>}
+      {!loggedIn ? <Login /> : <h2>Thank you for logging in</h2>}
     </div>
   );
 }
