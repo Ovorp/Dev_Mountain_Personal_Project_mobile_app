@@ -1,5 +1,5 @@
 import './css/App.css';
-
+import { useEffect } from 'react';
 import axios from 'axios';
 import { HashRouter } from 'react-router-dom';
 import ImageForm from './components/ImageForm';
@@ -7,11 +7,38 @@ import { Header, NavBar } from './component imports/appComponents';
 import routes from './routes/routes';
 import Journal from './components/journal/Journal';
 import Button from 'react-bootstrap/Button';
+import { connect } from 'react-redux';
+import { registerUserData } from './duck/userReducer';
 
-function App() {
-  axios.get('api/test').then((res) => {
-    console.log(res.data);
-  });
+function App(props) {
+  let userId = props.user.id;
+  useEffect(() => {
+    if (!userId) {
+      axios
+        .get(`/api/users`)
+        .then((response) => {
+          const {
+            phone_number,
+            users_email,
+            users_first_name,
+            users_last_name,
+            users_id,
+          } = response.data[0];
+          if (response.data[0]) {
+            const userInfo = {
+              phoneNumber: phone_number,
+              email: users_email,
+              firstName: users_first_name,
+              lastName: users_last_name,
+              id: users_id,
+              isLoggedIn: true,
+            };
+            props.registerUserData(userInfo);
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  }, []);
 
   return (
     <HashRouter>
@@ -38,4 +65,14 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+
+const mapDispatchToProps = {
+  registerUserData,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

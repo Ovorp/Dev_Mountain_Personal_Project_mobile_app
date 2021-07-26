@@ -3,9 +3,12 @@ import { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { registerUserData } from './../../duck/userReducer';
+import { Link } from 'react-router-dom';
 
 // need first name, last name, password, phone number and email
-export default function NewUser() {
+function NewUser(props) {
   async function registerUser() {
     const result = await axios.post(`/api/users/register`, {
       firstName,
@@ -14,7 +17,11 @@ export default function NewUser() {
       phoneNumber,
       email,
     });
-    console.log(result);
+    const userInfo = {
+      ...result.data,
+      isLoggedIn: true,
+    };
+    props.registerUserData(userInfo);
     setFirstName('');
     setLastName('');
     setPassword('');
@@ -83,11 +90,24 @@ export default function NewUser() {
           <Form.Label>Password</Form.Label>
           <Form.Control type="password" placeholder="Password" />
         </Form.Group>
-
-        <Button variant="primary" type="submit" onClick={registerUser}>
-          Submit
-        </Button>
+        <Link to="/">
+          <Button variant="primary" type="submit" onClick={registerUser}>
+            Submit
+          </Button>
+        </Link>
       </Form>
     </div>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+
+const mapDispatchToProps = {
+  registerUserData,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewUser);

@@ -5,6 +5,17 @@ async function getTestData(req, res) {
   const testData = await db.test();
   res.status(200).json(testData);
 }
+function getUserInfoIfHasSession(req, res) {
+  const db = req.app.get('db');
+
+  if (req.session.user.id) {
+    db.user.find_user_by_id(req.session.user.id).then((response) => {
+      res.status(200).json(response);
+    });
+  } else {
+    res.status(404).json('User is not found');
+  }
+}
 
 async function register(req, res) {
   const { firstName, lastName, password, phoneNumber, email } = req.body;
@@ -74,7 +85,7 @@ async function updateUserInformation(req, res) {
   const updatedUser = {
     firstName: firstName || req.session.user.firstName,
     lastName: lastName || req.session.user.lastName,
-    phoneNumber: phoneNumber || req.session.user.pWhoneNumber,
+    phoneNumber: phoneNumber || req.session.user.phoneNumber,
     email: email || req.sesssion.user.email,
     id: req.session.user.id,
   };
@@ -130,4 +141,5 @@ module.exports = {
   updatePassword,
   login,
   userDatabaseReset,
+  getUserInfoIfHasSession,
 };

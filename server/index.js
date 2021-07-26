@@ -13,6 +13,7 @@ const {
   updateUserInformation,
   updatePassword,
   userDatabaseReset,
+  getUserInfoIfHasSession,
 } = require('./controllers/users.js');
 const {
   addNewTrip,
@@ -105,7 +106,8 @@ app.put(`${USER_API}`, isLoggedIn, updateUserInformation);
 app.put(`${USER_API}/password`, isLoggedIn, updatePassword);
 //  Log out
 app.post(`${USER_API}/logout`, logout);
-// To reset the userdatabase for testing
+// Check to see if someone is logged in
+app.get(`${USER_API}`, getUserInfoIfHasSession);
 
 // Trip endpoints
 app.use(isLoggedIn);

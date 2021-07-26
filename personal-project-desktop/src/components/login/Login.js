@@ -4,26 +4,30 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { registerUserData } from './../../duck/userReducer';
 
-function logInUser(email, password) {
-  axios
-    .post('api/users/login', { email, password })
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
-
-  console.log('logged in');
-}
-
-function test() {
-  axios
-    .get('api/test')
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
-}
-
-export default function Login() {
+function Login(props) {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
+
+  async function logInUser(email, password) {
+    const result = await axios
+      .post('api/users/login', { email, password })
+      .catch((err) => console.log(err));
+
+    console.log(result);
+    if (!result) {
+      return;
+    } else {
+      const userInfo = {
+        ...result.data,
+        isLoggedIn: true,
+      };
+
+      props.registerUserData(userInfo);
+    }
+  }
 
   return (
     <>
@@ -70,3 +74,15 @@ export default function Login() {
     </>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+
+const mapDispatchToProps = {
+  registerUserData,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
