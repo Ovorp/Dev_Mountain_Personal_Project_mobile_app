@@ -2,7 +2,6 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Home from '../Home';
 import Journal from '../components/journal/Journal';
-import TripSum from '../components/journal/trip/TripSum';
 import NewUser from '../components/login/NewUser';
 
 // import Home from './components/Home/Home';
