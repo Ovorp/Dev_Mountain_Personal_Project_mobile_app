@@ -12,6 +12,5 @@ export default (
     <Route component={Home} exact path="/" />
     <Route component={Journal} path="/journal" />
     <Route component={NewUser} path="/newuser" />
-    <Route component={TripSum} path="/trip" />
   </Switch>
 );

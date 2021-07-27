@@ -26,7 +26,7 @@ function NavBar(props) {
           <Nav.Link>Journal</Nav.Link>
         </LinkContainer>
 
-        <Nav.Link>Trips</Nav.Link>
+        {/* <Nav.Link>Trips</Nav.Link> */}
         <Nav.Link>Pictures</Nav.Link>
         <Nav.Link>Something Else</Nav.Link>
         <div className="logout">
