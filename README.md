@@ -7,3 +7,5 @@ look to see what functionality can be moved to the server. For example if you ne
 figure out a way to store the image data on the database. And the get requests
 
 need to create the trip components
+
+maybe write one endpoint that gets all the user information, trips, people, picture, etc...

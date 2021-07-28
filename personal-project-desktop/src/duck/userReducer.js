@@ -9,6 +9,7 @@ const initialState = {
 
 const REG_USER_DATA = 'REG_USER_DATA';
 const LOGOUT = 'LOGOUT';
+
 export const registerUserData = (input) => {
   const data = input;
 

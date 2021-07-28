@@ -16,7 +16,6 @@ function Login(props) {
       .post('api/users/login', { email, password })
       .catch((err) => console.log(err));
 
-    console.log(result);
     if (!result) {
       return;
     } else {

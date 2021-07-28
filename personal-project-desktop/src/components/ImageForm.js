@@ -6,6 +6,8 @@ async function postImage({ image, description }) {
   const formData = new FormData();
   formData.append('image', image);
   formData.append('description', description);
+  formData.append('tripId', 3);
+  formData.append('userId', 1);
   //need to figure out a way to add trip id and user id
 
   const result = await axios.post('/api/image', formData, {
@@ -13,6 +15,8 @@ async function postImage({ image, description }) {
   });
   return result.data;
 }
+
+//write a on mount function that gets all picture information and sets it to set images
 
 export default function ImageForm() {
   const [file, setFile] = useState();

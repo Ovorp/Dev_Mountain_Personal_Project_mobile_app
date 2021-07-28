@@ -40,6 +40,7 @@ const {
   uploadImage,
   getImage,
   deleteImage,
+  getAllImages,
 } = require('./controllers/images.js');
 // const { IAM } = require('aws-sdk');  Dont think i need this
 const { SERVER_PORT, CONNECTION_STRING, SECRET } = process.env;
@@ -80,10 +81,6 @@ function isLoggedIn(req, res, next) {
 
 const IMAGE_API = '/api/image';
 
-app.post(IMAGE_API, upload.single('image'), uploadImage);
-app.get(`${IMAGE_API}/:key`, getImage);
-app.delete(`${IMAGE_API}/:key`, deleteImage);
-
 const USER_API = '/api/users';
 const TRIP_API = `/api/trip`;
 const TO_DO_LIST_API = `/api/todolist`;
@@ -111,33 +108,75 @@ app.get(`${USER_API}`, getUserInfoIfHasSession);
 
 // Trip endpoints
 app.use(isLoggedIn);
+
+app.get(`/api/all/:userId`, async (req, res) => {
+  const { userId } = req.params;
+  const db = req.app.get('db');
+
+  const resultTrip = await db.get_all
+    .get_all_trips(userId)
+    .catch((err) => console.log(err));
+
+  const arrOfTripId = resultTrip.map((val) => val.trip_id);
+
+  const arrOfToDo = await Promise.all(
+    arrOfTripId.map(async (val) => {
+      return await db.get_all.get_all_todo(val);
+    })
+  );
+
+  const arrOfPeople = await Promise.all(
+    arrOfTripId.map(async (val) => {
+      return await db.get_all.get_all_people(val);
+    })
+  );
+
+  let flatArrOfToDo = arrOfToDo.flat();
+  let flatArrOfPeople = arrOfPeople.flat();
+  let result = [];
+
+  for (let i = 0; i < arrOfTripId.length; i++) {
+    let toDoListItems = flatArrOfToDo.filter(
+      (val) => val.trip_id === resultTrip[i].trip_id
+    );
+    let people = flatArrOfPeople.filter(
+      (val) => val.trip_id === resultTrip[i].trip_id
+    );
+
+    let objForTripStore = {
+      tripId: resultTrip[i].trip_id,
+      tripName: resultTrip[i].trip_name,
+      toDoList: toDoListItems,
+      peopleList: people,
+    };
+
+    result.push(objForTripStore);
+  }
+
+  res.status(200).json(result);
+});
+
 app.post(`${TRIP_API}`, addNewTrip);
 app.put(`${TRIP_API}`, changeTripName);
 app.delete(`${TRIP_API}`, deleteTrip);
 
+// To do list endpoints
 app.post(`${TO_DO_LIST_API}`, createToDoList);
 app.post(`${TO_DO_LIST_API}/item`, addToDoListItem);
 app.put(`${TO_DO_LIST_API}/item`, updateToDoListItem);
 app.delete(`${TO_DO_LIST_API}/item`, deleteToDoListItem);
 
+// People endpoints
 app.post(`${PEOPLE_API}`, addPeople);
 app.post(`${PEOPLE_API}/list`, createsPeopleList);
 app.put(`${PEOPLE_API}`, updatesPeople);
 app.put(`${PEOPLE_API}/list`, updatePeopleList);
 app.delete(`${PEOPLE_API}`, deletePeople);
 
-// adding new trip, people and todo list, should send things on body
-// // getting trip, people and todo list
-// // might want to think about addin a querey or param to search
-// app.get();
-// app.get();
-// app.get();
-// chaning trip, people and todo list
-// mark?ing a todo list item as done
-// deleting trip, people and todo list
-
-// // Picture endpoints
-
-// const PICTURE_API = '/api/picture';
+// Image endpoints
+app.post(`${IMAGE_API}`, upload.single('image'), uploadImage);
+app.get(`${IMAGE_API}/:key`, getImage);
+app.get(`${IMAGE_API}`, getAllImages);
+app.delete(`${IMAGE_API}/:key`, deleteImage);
 
 app.listen(SERVER_PORT, () => console.log(`Running on port ${SERVER_PORT}`));

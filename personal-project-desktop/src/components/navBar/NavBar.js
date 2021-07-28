@@ -14,7 +14,6 @@ function NavBar(props) {
       .catch(() => console.log('the log out did not work'));
     props.loggingOut();
   }
-  console.log(props.user);
   return (
     <nav className="mainNav">
       <Nav defaultActiveKey="/" className="flex-column">

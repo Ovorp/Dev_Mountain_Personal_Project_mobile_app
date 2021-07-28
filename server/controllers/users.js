@@ -5,15 +5,15 @@ async function getTestData(req, res) {
   const testData = await db.test();
   res.status(200).json(testData);
 }
+
 function getUserInfoIfHasSession(req, res) {
   const db = req.app.get('db');
-
   if (req.session.user.id) {
     db.user.find_user_by_id(req.session.user.id).then((response) => {
       res.status(200).json(response);
     });
   } else {
-    res.status(404).json('User is not found');
+    res.status(200).json('Please log in');
   }
 }
 

@@ -1,9 +1,9 @@
 async function addNewTrip(req, res) {
-  const { tripName, id } = req.body;
+  const { tripName, userId } = req.body;
   //   const { id } = req.session.user.id;
   const db = req.app.get('db');
   const trip = await db.trip
-    .add_trip([id, tripName])
+    .add_trip([userId, tripName])
     .catch((err) => console.log(err));
 
   res.status(200).json(trip[0]);
