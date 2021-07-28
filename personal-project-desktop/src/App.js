@@ -16,7 +16,6 @@ function App(props) {
       axios
         .get(`/api/users`)
         .then((response) => {
-          console.log(response);
           const {
             phone_number,
             users_email,

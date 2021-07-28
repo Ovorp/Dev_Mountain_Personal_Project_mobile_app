@@ -17,7 +17,7 @@ function NoTripSelect(props) {
       {addTrip ? <TripForm /> : null}
       {/* This will probably have to be a new component */}
       {props.tripArr.map((val) => {
-        return <p>{val}</p>;
+        return <p>{val.tripName}</p>;
       })}
     </>
   );
@@ -28,10 +28,10 @@ function Journal(props) {
   const isLoggedIn = props.user.isLoggedIn;
   //need to fix this to get it from redux
   const tripArr = props.trips;
-  console.log(tripArr);
+
   //Will need to get a list of trips from the server and store it on redux on mount
 
-  async function journalHomePage() {
+  function journalHomePage() {
     return (
       <>
         <button onClick={() => setTripId(!tripId)}>
