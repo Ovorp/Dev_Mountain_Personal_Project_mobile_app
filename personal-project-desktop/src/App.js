@@ -17,8 +17,8 @@ function App(props) {
         const response = await axios
           .get(`/api/users`)
           .catch((err) => console.log(err));
-
-        if (response.data[0]) {
+        if (!response) return;
+        else {
           const {
             phone_number,
             users_email,

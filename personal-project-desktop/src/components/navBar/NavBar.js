@@ -5,6 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import './../../css/navBar.css';
 import { connect } from 'react-redux';
 import { loggingOut } from './../../duck/userReducer';
+import { loadDataToStore } from './../../duck/tripReducer';
 // import routes from './../../routes';
 function NavBar(props) {
   function logout() {
@@ -13,6 +14,7 @@ function NavBar(props) {
       .then()
       .catch(() => console.log('the log out did not work'));
     props.loggingOut();
+    props.loadDataToStore([]);
   }
   return (
     <nav className="mainNav">
@@ -45,6 +47,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   loggingOut,
+  loadDataToStore,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

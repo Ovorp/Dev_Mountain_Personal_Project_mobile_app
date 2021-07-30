@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import Login from './components/login/Login';
 import { connect } from 'react-redux';
-import { loadDataToStore } from './duck/tripReducer';
 
 function Home(props) {
   const isLoggedIn = props.user.isLoggedIn;
@@ -21,8 +20,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = {
-  loadDataToStore,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps)(Home);

@@ -1,18 +1,16 @@
-async function createToDoList(req, res) {
-  const { tripId } = req.body;
+async function getToDoListItem(req, res) {
+  const { tripId } = req.params;
   const db = req.app.get('db');
-  const toDoList = await db.to_do_list
-    .add_to_do_list(tripId)
-    .catch((err) => console.log(err));
-
-  res.status(200).json(toDoList[0]);
+  const result = await db.to_do_list.get_to_do_list_item(tripId);
+  console.log(tripId);
+  res.status(200).json(result);
 }
 
 function addToDoListItem(req, res) {
-  const { toDoListId, itemName, isDone } = req.body;
+  const { tripId, itemName, isDone } = req.body;
   const db = req.app.get('db');
   db.to_do_list
-    .add_to_do_list_item(toDoListId, itemName, isDone)
+    .add_to_do_list_item(tripId, itemName, isDone)
     .then(() => res.status(200).json('Item has been added to the to do list'))
     .catch((err) => console.log(err));
 }
@@ -20,11 +18,16 @@ function addToDoListItem(req, res) {
 async function updateToDoListItem(req, res) {
   const { toDoListItemId, itemName, isDone } = req.body;
   const db = req.app.get('db');
-  const result = await db.to_do_list.get_to_do_list_item(toDoListItemId);
-  const oldItem = result[0];
+  // const result = await db.to_do_list.get_to_do_list_item(toDoListItemId);
+  // const oldItem = result[0];
+  // I changed the db sql to go off of trip id need to write a new one if I want to use this
+  // const newItem = {
+  //   newItemName: itemName || oldItem.item_name,
+  //   newIsDone: isDone || oldItem.is_done,
+  // };
   const newItem = {
-    newItemName: itemName || oldItem.item_name,
-    newIsDone: isDone || oldItem.is_done,
+    newItemName: itemName,
+    newIsDone: isDone,
   };
 
   const updatedItem = await db.to_do_list
@@ -59,9 +62,9 @@ function resetToDo(req, res) {
 }
 
 module.exports = {
-  createToDoList,
   addToDoListItem,
   updateToDoListItem,
   deleteToDoListItem,
   resetToDo,
+  getToDoListItem,
 };

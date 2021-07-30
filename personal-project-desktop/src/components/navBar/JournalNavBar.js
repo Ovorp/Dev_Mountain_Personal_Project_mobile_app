@@ -28,10 +28,11 @@ function JournalNavBar(props) {
             <LinkContainer to="/journal/trip-pic">
               <Nav.Link>Trip Pictures</Nav.Link>
             </LinkContainer>
-
-            <Nav.Link onClick={() => props.setCurrentTripId(null)}>
-              Pick a New trip
-            </Nav.Link>
+            <LinkContainer to="/journal">
+              <Nav.Link onClick={() => props.setCurrentTripId(null)}>
+                Pick a New trip
+              </Nav.Link>
+            </LinkContainer>
           </Nav>
         </nav>
       ) : null}

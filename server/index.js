@@ -25,7 +25,7 @@ const {
   addToDoListItem,
   updateToDoListItem,
   deleteToDoListItem,
-  createToDoList,
+  getToDoListItem,
   resetToDo,
 } = require('./controllers/toDoList.js');
 const {
@@ -112,7 +112,7 @@ app.use(isLoggedIn);
 app.get(`/api/all/:userId`, async (req, res) => {
   const { userId } = req.params;
   const db = req.app.get('db');
-
+  console.log('help');
   const resultTrip = await db.get_all
     .get_all_trips(userId)
     .catch((err) => console.log(err));
@@ -161,10 +161,11 @@ app.put(`${TRIP_API}`, changeTripName);
 app.delete(`${TRIP_API}`, deleteTrip);
 
 // To do list endpoints
-app.post(`${TO_DO_LIST_API}`, createToDoList);
-app.post(`${TO_DO_LIST_API}/item`, addToDoListItem);
-app.put(`${TO_DO_LIST_API}/item`, updateToDoListItem);
-app.delete(`${TO_DO_LIST_API}/item`, deleteToDoListItem);
+// app.post(`${TO_DO_LIST_API}`, createToDoList);
+app.post(`${TO_DO_LIST_API}`, addToDoListItem);
+app.put(`${TO_DO_LIST_API}`, updateToDoListItem);
+app.get(`${TO_DO_LIST_API}/:tripId`, getToDoListItem);
+app.delete(`${TO_DO_LIST_API}`, deleteToDoListItem);
 
 // People endpoints
 app.post(`${PEOPLE_API}`, addPeople);

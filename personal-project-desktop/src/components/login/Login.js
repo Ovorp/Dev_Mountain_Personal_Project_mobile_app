@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { registerUserData } from './../../duck/userReducer';
+import { loadDataToStore } from './../../duck/tripReducer';
 
 function Login(props) {
   const [userEmail, setUserEmail] = useState('');
@@ -17,7 +18,7 @@ function Login(props) {
       .catch((err) => console.log(err));
 
     if (!result) {
-      return;
+      return console.log('wrong creds');
     } else {
       const userInfo = {
         ...result.data,
@@ -25,6 +26,17 @@ function Login(props) {
       };
 
       props.registerUserData(userInfo);
+
+      async function getInfo(userId) {
+        const userInfoForStore = await axios
+          .get(`/api/all/${userId}`)
+          .catch((err) => console.log(err));
+
+        console.log(userInfoForStore);
+        props.loadDataToStore(userInfoForStore.data);
+      }
+      console.log(userInfo);
+      getInfo(userInfo.id);
     }
   }
 
@@ -84,6 +96,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   registerUserData,
+  loadDataToStore,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
