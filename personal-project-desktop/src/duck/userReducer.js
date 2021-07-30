@@ -5,10 +5,10 @@ const initialState = {
   phoneNumber: null,
   id: null,
   isLoggedIn: false,
+  currentTripId: null,
 };
 
 const REG_USER_DATA = 'REG_USER_DATA';
-const LOGOUT = 'LOGOUT';
 
 export const registerUserData = (input) => {
   const data = input;
@@ -19,10 +19,21 @@ export const registerUserData = (input) => {
   };
 };
 
+const LOGOUT = 'LOGOUT';
+
 export const loggingOut = () => {
   return {
     type: LOGOUT,
     payload: {},
+  };
+};
+
+const SET_CURRENT_TRIP_ID = `SET_CURRENT_TRIP_ID`;
+
+export const setCurrentTripId = (tripId) => {
+  return {
+    type: SET_CURRENT_TRIP_ID,
+    payload: tripId,
   };
 };
 
@@ -38,7 +49,7 @@ const reducer = (state = initialState, { type, payload }) => {
         id: payload.id,
         isLoggedIn: payload.isLoggedIn,
       };
-    case `${LOGOUT}`: {
+    case `${LOGOUT}`:
       return {
         ...state,
         firstName: null,
@@ -48,7 +59,12 @@ const reducer = (state = initialState, { type, payload }) => {
         id: null,
         isLoggedIn: false,
       };
-    }
+    case `${SET_CURRENT_TRIP_ID}`:
+      return {
+        ...state,
+        currentTripId: payload,
+      };
+
     default:
       return state;
   }

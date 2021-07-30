@@ -1,6 +1,8 @@
 import React from 'react';
 import Nav from 'react-bootstrap/Nav';
 import { LinkContainer } from 'react-router-bootstrap';
+import { connect } from 'react-redux';
+import { setCurrentTripId } from './../../duck/userReducer';
 import './../../css/navBar.css';
 
 //still might need redux inorder to put down some info for the url.  That might be a good way to get that information
@@ -26,13 +28,19 @@ function JournalNavBar(props) {
             <LinkContainer to="/journal/trip-pic">
               <Nav.Link>Trip Pictures</Nav.Link>
             </LinkContainer>
+
+            <Nav.Link onClick={() => props.setCurrentTripId(null)}>
+              Pick a New trip
+            </Nav.Link>
           </Nav>
         </nav>
-      ) : (
-        <p>please pick a trip</p>
-      )}
+      ) : null}
     </>
   );
 }
 
-export default JournalNavBar;
+const mapDispatchToProps = {
+  setCurrentTripId,
+};
+
+export default connect(null, mapDispatchToProps)(JournalNavBar);

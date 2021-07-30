@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import JournalNavBar from './../navBar/JournalNavBar';
 import TripSum from './trip/TripSum';
 import TripForm from './trip/TripForm';
+import TripListCard from './trip/TripListCard';
 
 function NoTripSelect(props) {
   const [addTrip, setAddTrip] = useState(false);
@@ -16,15 +16,13 @@ function NoTripSelect(props) {
       </Button>
       {addTrip ? <TripForm /> : null}
       {/* This will probably have to be a new component */}
-      {props.tripArr.map((val) => {
-        return <p>{val.tripName}</p>;
-      })}
+      <TripListCard tripArr={props.tripArr} />
     </>
   );
 }
 
 function Journal(props) {
-  const [tripId, setTripId] = useState(false);
+  const tripId = props.user.currentTripId;
   const isLoggedIn = props.user.isLoggedIn;
   //need to fix this to get it from redux
   const tripArr = props.trips;
@@ -34,9 +32,6 @@ function Journal(props) {
   function journalHomePage() {
     return (
       <>
-        <button onClick={() => setTripId(!tripId)}>
-          Test to set tripId to true
-        </button>
         <JournalNavBar tripId={tripId} />
         {tripId ? <TripSum /> : <NoTripSelect tripArr={tripArr} />}
       </>

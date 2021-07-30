@@ -5,17 +5,20 @@ import { HashRouter } from 'react-router-dom';
 
 import { Header, NavBar } from './component imports/appComponents';
 import routes from './routes/routes';
-
 import { connect } from 'react-redux';
+import { loadDataToStore } from './duck/tripReducer';
 import { registerUserData } from './duck/userReducer';
 
 function App(props) {
   let userId = props.user.id;
   useEffect(() => {
-    if (!userId) {
-      axios
-        .get(`/api/users`)
-        .then((response) => {
+    async function checkIfThereIsAUserOnSession() {
+      if (!userId) {
+        const response = await axios
+          .get(`/api/users`)
+          .catch((err) => console.log(err));
+
+        if (response.data[0]) {
           const {
             phone_number,
             users_email,
@@ -23,20 +26,30 @@ function App(props) {
             users_last_name,
             users_id,
           } = response.data[0];
-          if (response.data[0]) {
-            const userInfo = {
-              phoneNumber: phone_number,
-              email: users_email,
-              firstName: users_first_name,
-              lastName: users_last_name,
-              id: users_id,
-              isLoggedIn: true,
-            };
-            props.registerUserData(userInfo);
+          const userInfo = {
+            phoneNumber: phone_number,
+            email: users_email,
+            firstName: users_first_name,
+            lastName: users_last_name,
+            id: users_id,
+            isLoggedIn: true,
+          };
+          props.registerUserData(userInfo);
+
+          async function getInfo(userId) {
+            const userInfoForStore = await axios
+              .get(`/api/all/${userId}`)
+              .catch((err) => console.log(err));
+
+            props.loadDataToStore(userInfoForStore.data);
           }
-        })
-        .catch((err) => console.log(err));
+          getInfo(users_id);
+        }
+      }
     }
+
+    checkIfThereIsAUserOnSession();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -59,11 +72,13 @@ function App(props) {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
+    trip: state.trip,
   };
 };
 
 const mapDispatchToProps = {
   registerUserData,
+  loadDataToStore,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

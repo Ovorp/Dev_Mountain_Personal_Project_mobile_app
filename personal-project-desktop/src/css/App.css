@@ -16,6 +16,7 @@ header {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  z-index: 1;
 }
 
 .test {
@@ -29,4 +30,12 @@ header {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.trip-card {
+  display: flex;
+  width: 400px;
+  align-content: center;
+  justify-content: space-between;
+  margin-top: 30px;
 }

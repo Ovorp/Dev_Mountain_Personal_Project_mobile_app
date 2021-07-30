@@ -6,18 +6,6 @@ import { loadDataToStore } from './duck/tripReducer';
 
 function Home(props) {
   const isLoggedIn = props.user.isLoggedIn;
-  useEffect(() => {
-    async function getInfo() {
-      if (isLoggedIn) {
-        const userInfoForStore = await axios
-          .get(`/api/all/${props.user.id}`)
-          .catch((err) => console.log(err));
-        console.log(userInfoForStore.data);
-        props.loadDataToStore(userInfoForStore.data);
-      }
-    }
-    getInfo();
-  });
 
   return (
     <div>
