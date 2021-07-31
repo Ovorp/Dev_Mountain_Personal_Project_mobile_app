@@ -25,9 +25,10 @@ function NavBar(props) {
         <LinkContainer to="/journal">
           <Nav.Link>Journal</Nav.Link>
         </LinkContainer>
-
+        <LinkContainer to="/pictures">
+          <Nav.Link>Pictures</Nav.Link>
+        </LinkContainer>
         {/* <Nav.Link>Trips</Nav.Link> */}
-        <Nav.Link>Pictures</Nav.Link>
         <Nav.Link>Something Else</Nav.Link>
         <div className="logout">
           <Nav.Link>

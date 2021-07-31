@@ -8,7 +8,11 @@ function Home(props) {
 
   return (
     <div>
-      <h1>Welcome App Please log in</h1>
+      <h1>
+        {!isLoggedIn
+          ? 'Welcome App Please log in'
+          : `${props.user.firstName} ${props.user.lastName}`}
+      </h1>
       {!isLoggedIn ? <Login /> : <h2>Thank you for logging in</h2>}
     </div>
   );

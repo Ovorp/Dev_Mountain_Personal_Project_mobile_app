@@ -1,15 +1,24 @@
-import React, { useState } from 'react';
-import ImageForm from './../../ImageForm';
+import React, { useState, useEffect } from 'react';
+import ImageForm from '../../images/ImageForm';
 import Button from 'react-bootstrap/Button';
+import { connect } from 'react-redux';
+import axios from 'axios';
 
-export default function TripPic() {
-  const [displayPic, setDisplayPic] = useState(false);
-
+function TripPic(props) {
   return (
-    <div>
-      Trip Pic
-      <Button onClick={() => setDisplayPic(!displayPic)}>Add Pictures</Button>
-      {displayPic ? <ImageForm /> : null}
-    </div>
+    <>
+      <ImageForm tripId={props.user.currentTripId} userId={props.user.id} />
+    </>
   );
 }
+
+const mapDispatchToProps = {};
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+    picture: state.picture,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TripPic);
