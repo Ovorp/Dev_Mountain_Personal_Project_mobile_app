@@ -1,7 +1,32 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import { connect } from 'react-redux';
+import PersonForm from './PersonForm';
+import PeopleList from './PeopleList';
 
-export default class People extends Component {
-  render() {
-    return <div>This is the people section</div>;
-  }
+function People(props) {
+  const [addPerson, setAddPerson] = useState(false);
+  const arrOfPeople = props.trip.filter(
+    (val) => val.tripId === props.user.currentTripId
+  )[0].peopleList;
+  console.log(arrOfPeople);
+  return (
+    <div>
+      <Button onClick={() => setAddPerson(!addPerson)}>
+        Add a new person to this trip
+      </Button>
+      {addPerson ? <PersonForm /> : null}
+
+      <PeopleList arrOfPeople={arrOfPeople} />
+    </div>
+  );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+    trip: state.trip,
+  };
+};
+
+export default connect(mapStateToProps)(People);

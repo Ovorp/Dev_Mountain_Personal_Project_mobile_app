@@ -30,7 +30,7 @@ function ToDoCheckboxes(props) {
       <InputGroup className="mb-3">
         <InputGroup.Checkbox
           checked={check}
-          onClick={() => {
+          onChange={() => {
             updateIsDone(
               props.val.to_do_list_item_id,
               props.val.item_name,

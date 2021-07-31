@@ -42,6 +42,7 @@ const {
   deleteImage,
   getAllImages,
 } = require('./controllers/images.js');
+const { sendText } = require('./controllers/texting.js');
 // const { IAM } = require('aws-sdk');  Dont think i need this
 const { SERVER_PORT, CONNECTION_STRING, SECRET } = process.env;
 
@@ -112,7 +113,7 @@ app.use(isLoggedIn);
 app.get(`/api/all/:userId`, async (req, res) => {
   const { userId } = req.params;
   const db = req.app.get('db');
-  console.log('help');
+
   const resultTrip = await db.get_all
     .get_all_trips(userId)
     .catch((err) => console.log(err));
@@ -179,5 +180,8 @@ app.post(`${IMAGE_API}`, upload.single('image'), uploadImage);
 app.get(`${IMAGE_API}/:key`, getImage);
 app.get(`${IMAGE_API}`, getAllImages);
 app.delete(`${IMAGE_API}/:key`, deleteImage);
+
+// Texting endpoints
+app.post('/api/text', sendText);
 
 app.listen(SERVER_PORT, () => console.log(`Running on port ${SERVER_PORT}`));

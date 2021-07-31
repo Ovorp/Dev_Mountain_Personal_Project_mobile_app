@@ -51,13 +51,13 @@ const reducer = (state = initialState, { type, payload }) => {
       };
     case `${LOGOUT}`:
       return {
-        ...state,
         firstName: null,
         lastName: null,
         email: null,
         phoneNumber: null,
         id: null,
         isLoggedIn: false,
+        currentTripId: null,
       };
     case `${SET_CURRENT_TRIP_ID}`:
       return {

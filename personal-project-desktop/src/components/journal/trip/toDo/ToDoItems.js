@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import ToDoCheckboxes from './ToDoCheckboxes';
 
@@ -11,9 +11,9 @@ function ToDoItems(props) {
     <>
       {itemArr.map((val, i) => {
         return (
-          <>
+          <div key={i}>
             <ToDoCheckboxes val={val} key={i} />
-          </>
+          </div>
         );
       })}
     </>

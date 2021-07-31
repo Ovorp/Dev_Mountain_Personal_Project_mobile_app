@@ -42,7 +42,7 @@ CREATE TABLE people (
     first_name VARCHAR(60),
     last_name VARCHAR(60),
     email VARCHAR(100),
-    phone_number VARCHAR(10)
+    phone_number VARCHAR(15)
 
 );
 

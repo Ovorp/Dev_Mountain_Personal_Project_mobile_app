@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ImageForm from './../../ImageForm';
+import Button from 'react-bootstrap/Button';
 
 export default function TripPic() {
   const [displayPic, setDisplayPic] = useState(false);
@@ -7,7 +8,7 @@ export default function TripPic() {
   return (
     <div>
       Trip Pic
-      <button onClick={() => setDisplayPic(!displayPic)}>Add Pictures</button>
+      <Button onClick={() => setDisplayPic(!displayPic)}>Add Pictures</Button>
       {displayPic ? <ImageForm /> : null}
     </div>
   );

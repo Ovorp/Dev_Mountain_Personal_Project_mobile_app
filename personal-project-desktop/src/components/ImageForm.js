@@ -1,6 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 async function postImage({ image, description }) {
   const formData = new FormData();
@@ -19,7 +21,7 @@ async function postImage({ image, description }) {
 //write a on mount function that gets all picture information and sets it to set images
 
 export default function ImageForm() {
-  const [file, setFile] = useState();
+  const [file, setFile] = useState({});
   const [description, setDescription] = useState('');
   const [images, setImages] = useState([]);
   const [imageDescription, setImageDescription] = useState([]);
@@ -27,9 +29,9 @@ export default function ImageForm() {
   const submit = async (e) => {
     e.preventDefault();
     const result = await postImage({ image: file, description });
-    console.log(result);
     setImages([result.imageKey, ...images]);
     setImageDescription([result.imageDescription, ...imageDescription]);
+    setDescription('');
   };
 
   const fileSelected = (e) => {
@@ -37,30 +39,43 @@ export default function ImageForm() {
     setFile(file);
   };
 
-  console.log(images, imageDescription);
-
   return (
     <div>
-      <form onSubmit={submit}>
+      <Form>
+        <Form.Group controlId="formFile" className="mb-3">
+          <Form.Control type="file" onChange={fileSelected} accept="image/*" />
+          <Form.Control
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            type="text"
+            placeholder="Picture description"
+          />
+        </Form.Group>
+        {/* <form onSubmit={submit}>
         <input onChange={fileSelected} type="file" accept="image/*"></input>
         <input
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          type="text"
-        ></input>
-        <button type="submit">Submit</button>
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        type="text"
       </form>
-
-      {images.map((image, i) => (
-        <div key={image}>
-          <img
-            src={`/api/image/${image}`}
-            alt={imageDescription[i]}
-            width="200"
-            height="200"
-          ></img>
-        </div>
-      ))}
+      ></input>
+      */}
+        <Button type="submit" onClick={submit}>
+          Submit
+        </Button>
+      </Form>
+      <div className="pic-grid">
+        {images.map((image, i) => (
+          <div key={image}>
+            <img
+              src={`/api/image/${image}`}
+              alt={imageDescription[i]}
+              width="200"
+              height="200"
+            ></img>
+          </div>
+        ))}
+      </div>
 
       {/* <img
         src="/api/image/e36712cfaa456a6b6b19cd71ba1ef40a"
