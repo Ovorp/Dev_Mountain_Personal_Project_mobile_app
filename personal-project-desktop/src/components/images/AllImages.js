@@ -1,33 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
+import Images from './Images';
+
 import { connect } from 'react-redux';
 
 function AllImages(props) {
-  const [imageFiles, setImageFiles] = useState([]);
+  const isLoggedIn = props.user.isLoggedIn;
 
-  useEffect(() => {
-    async function getPics(userId) {
-      const result = await axios
-        .get(`/api/image?userId=${userId}`)
-        .catch((err) => console.log(err));
-      setImageFiles(result.data);
-    }
-    getPics(props.user.id);
-  }, []);
-  console.log(imageFiles);
   return (
-    <div className="pic-grid">
-      {imageFiles.map((image, i) => (
-        <div key={image.picture_id}>
-          <img
-            className="pictures"
-            src={`/api/image/${image.picture_key}`}
-            alt={image.picture_description}
-          />
-          <p>{image.picture_description}</p>
-        </div>
-      ))}
-    </div>
+    <>
+      {!isLoggedIn ? (
+        <h2>Please go to the home page and log in</h2>
+      ) : (
+        <Images />
+      )}
+    </>
   );
 }
 

@@ -4,8 +4,4 @@ Need to change the trip addNewTrip contoller function to get the id from session
 
 look to see what functionality can be moved to the server. For example if you need to remove a person from a trip, instead of storing the person list id in state I can write a endpoint that runs a get to find the people list id and then deletes it. (this might be done, look at app.delete /api/people/list)
 
-figure out a way to store the image data on the database. And the get requests
-
-need to create the trip components
-
-maybe write one endpoint that gets all the user information, trips, people, picture, etc...
+Need to refactor, there are a few componets that reuse logic (pictures display, use effect to load user info).
