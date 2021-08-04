@@ -1,6 +1,7 @@
 import React from 'react';
-import { useEffect, setState } from 'react';
 import { connect } from 'react-redux';
+import fishLogo from './../../logos/fishLogo.png';
+import './../../css/Header.css';
 
 function Header(props) {
   const { firstName, lastName } = props.user;
@@ -11,7 +12,7 @@ function Header(props) {
         {firstName} {lastName}
       </h1>
 
-      <h1>Header</h1>
+      <img src={fishLogo} alt="fish logo" className="fishLogo" />
     </header>
   );
 }

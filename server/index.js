@@ -3,6 +3,7 @@ const express = require('express');
 const massive = require('massive');
 const session = require('express-session');
 const multer = require('multer');
+const axios = require('axios');
 const upload = multer({ dest: 'uploads/' });
 
 const {
@@ -44,7 +45,7 @@ const {
 } = require('./controllers/images.js');
 const { sendText } = require('./controllers/texting.js');
 // const { IAM } = require('aws-sdk');  Dont think i need this
-const { SERVER_PORT, CONNECTION_STRING, SECRET } = process.env;
+const { SERVER_PORT, CONNECTION_STRING, SECRET, WEATHER_KEY } = process.env;
 
 const app = express();
 
@@ -70,6 +71,23 @@ app.use(
 );
 
 app.use(express.json());
+
+// Weather endpoint open to everyone
+
+app.get(`/api/weather/:zipCode`, (req, res) => {
+  const { zipCode } = req.params;
+  axios
+    .get(
+      `https://api.openweathermap.org/data/2.5/weather?zip=${zipCode},us&units=imperial&appid=${WEATHER_KEY}`
+    )
+    .then((response) => {
+      const { name, weather, main, wind } = response.data;
+
+      const weatherResult = { name, weather, main, wind };
+      res.status(200).json(weatherResult);
+    })
+    .catch((err) => console.log(err));
+});
 
 //  Middleware to check if the user has a session.
 

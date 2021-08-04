@@ -37,7 +37,9 @@ function ImageForm(props) {
       setImageFiles(result.data);
     }
     getPics(props.user.currentTripId);
-  }, [images]);
+  }, [images, props.user.currentTripId]);
+
+  // the above line might cause problems
 
   console.log(imageFiles);
 

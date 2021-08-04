@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
+import Weather from './components/Weather';
 import Login from './components/login/Login';
 import { connect } from 'react-redux';
 
@@ -8,12 +8,8 @@ function Home(props) {
 
   return (
     <div>
-      <h1>
-        {!isLoggedIn
-          ? 'Welcome App Please log in'
-          : `${props.user.firstName} ${props.user.lastName}`}
-      </h1>
-      {!isLoggedIn ? <Login /> : <h2>Thank you for logging in</h2>}
+      <h1>{!isLoggedIn ? 'Welcome App Please log in' : null}</h1>
+      {!isLoggedIn ? <Login /> : <Weather />}
     </div>
   );
 }
