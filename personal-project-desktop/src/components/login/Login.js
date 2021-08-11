@@ -14,7 +14,7 @@ function Login(props) {
 
   async function logInUser(email, password) {
     const result = await axios
-      .post('api/users/login', { email, password })
+      .post('/api/users/login', { email, password })
       .catch((err) => console.log(err));
 
     if (!result) {

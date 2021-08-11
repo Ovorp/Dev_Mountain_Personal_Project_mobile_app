@@ -43,7 +43,9 @@ const {
   deleteImage,
   getAllImages,
 } = require('./controllers/images.js');
+
 const { sendText } = require('./controllers/texting.js');
+
 // const { IAM } = require('aws-sdk');  Dont think i need this
 const { SERVER_PORT, CONNECTION_STRING, SECRET, WEATHER_KEY } = process.env;
 
@@ -85,6 +87,20 @@ app.get(`/api/weather/:zipCode`, (req, res) => {
 
       const weatherResult = { name, weather, main, wind };
       res.status(200).json(weatherResult);
+    })
+    .catch((err) => console.log(err));
+});
+
+app.get(`/api/weather`, (req, res) => {
+  const { latitude, longitude, unitsSystem } = req.query;
+  const BASE_WEATHER_URL = 'https://api.openweathermap.org/data/2.5/weather?';
+  const weatherUrl = `${BASE_WEATHER_URL}lat=${latitude}&lon=${longitude}&units=${unitsSystem}&appid=${WEATHER_KEY}`;
+
+  axios
+    .get(weatherUrl)
+    .then((response) => {
+      console.log(response.data);
+      res.status(200).json(response.data);
     })
     .catch((err) => console.log(err));
 });
