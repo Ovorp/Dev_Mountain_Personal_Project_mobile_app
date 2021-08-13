@@ -17,7 +17,7 @@ function Images(props) {
 
   return (
     <div className="pic-grid">
-      {imageFiles.map((image, i) => (
+      {imageFiles.map((image) => (
         <div key={image.picture_id}>
           <img
             className="pictures"

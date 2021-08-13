@@ -1,8 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Pressable,
+  Image,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import axios from 'axios';
 import Main from './components/Main';
+import fishLogo from './utils/logos/fishLogo.png';
 
 export default function App() {
   const [email, setEmail] = useState('');
@@ -29,29 +39,54 @@ export default function App() {
   return (
     <>
       {loggedIn ? (
-        <Main userId={userId} />
+        <Main userId={{ userId, loggedIn, setLoggedIn }} />
       ) : (
-        <View style={styles.container}>
-          <Text style={styles.header}>Log into the app!</Text>
-          <Text>The email and password are case sensitive</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={true}
-          />
-          <Pressable onPress={() => logInUser(email, password)}>
-            <Text style={{ fontSize: 29, marginTop: 10 }}>Log In</Text>
-          </Pressable>
-          <StatusBar style="auto" />
-        </View>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+          <View style={styles.container}>
+            <Image source={fishLogo} style={styles.fishLogo} />
+            <Text style={styles.header}>Log into the app!</Text>
+            <Text>The email and password are case sensitive</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              value={email}
+              onChangeText={setEmail}
+            />
+            <TextInput
+              style={styles.input}
+              value={password}
+              placeholder="Password"
+              onChangeText={setPassword}
+              secureTextEntry={true}
+            />
+            <Pressable
+              onPress={() => logInUser(email, password)}
+              style={{
+                borderRadius: 10,
+                borderWidth: 4,
+                borderColor: '#dbdbdb',
+                backgroundColor: '#343a40',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center',
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 29,
+                  color: '#e8f0f2',
+                  width: 150,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  textAlign: 'center',
+                }}
+              >
+                Log In
+              </Text>
+            </Pressable>
+            <StatusBar style="auto" />
+          </View>
+        </TouchableWithoutFeedback>
       )}
     </>
   );
@@ -60,29 +95,28 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 24,
-    backgroundColor: '#fff',
+    padding: 20,
+    position: 'relative',
+    top: 0,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#e8f0f2',
   },
   header: {
     fontSize: 30,
+    fontWeight: 'bold',
+    marginBottom: 10,
   },
-  button: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 4,
-    elevation: 3,
-    backgroundColor: 'black',
-  },
-
   input: {
     height: 40,
     width: 200,
     margin: 12,
     borderWidth: 1,
     padding: 10,
+  },
+  fishLogo: {
+    resizeMode: 'center',
+    position: 'absolute',
+    top: -40,
   },
 });

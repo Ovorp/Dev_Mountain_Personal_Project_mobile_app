@@ -2,12 +2,13 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Weather from './Weather';
 import ImgGallery from './ImgGallery';
+import LogOut from './LogOut';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 const Tab = createBottomTabNavigator();
 
-function Main() {
+function MainWeather() {
   return (
     <View style={styles.main}>
       <Weather />
@@ -19,16 +20,21 @@ function Images({ userId }) {
   return <ImgGallery userId={userId} />;
 }
 
-function MyTabs({ userId }) {
+function MyTabs({ userId: { userId, loggedIn, setLoggedIn } }) {
   function Image() {
     return <Images userId={userId} />;
+  }
+  // console.log(props, 'props');
+  // console.log(userId, loggedIn, setLoggedIn, 'main');
+  function Log() {
+    return <LogOut setLoggedIn={setLoggedIn} loggedIn={loggedIn} />;
   }
 
   return (
     <Tab.Navigator>
       <Tab.Screen
-        name="Main"
-        component={Main}
+        name="Weather"
+        component={MainWeather}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
@@ -44,11 +50,20 @@ function MyTabs({ userId }) {
           ),
         }}
       />
+      <Tab.Screen
+        name="Log Out"
+        component={Log}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="logout" color={color} size={size} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }
 
-export default function App({ userId }) {
+export default function Main({ userId }) {
   return (
     <NavigationContainer>
       <MyTabs userId={userId} />
