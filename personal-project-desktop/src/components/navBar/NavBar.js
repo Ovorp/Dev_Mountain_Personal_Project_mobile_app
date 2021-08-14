@@ -22,7 +22,7 @@ function NavBar(props) {
         <LinkContainer to="/">
           <Nav.Link>Home</Nav.Link>
         </LinkContainer>
-        <LinkContainer to="/journal">
+        <LinkContainer to="/journal/sum">
           <Nav.Link>Journal</Nav.Link>
         </LinkContainer>
         <LinkContainer to="/pictures">

@@ -15,7 +15,7 @@ export default function Weather() {
       .catch((err) => console.log(err));
     setCurrentWeather(result.data);
   }
-  console.log(currentWeather);
+
   return (
     <div>
       <Form>

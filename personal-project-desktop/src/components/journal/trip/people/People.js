@@ -9,7 +9,7 @@ function People(props) {
   const arrOfPeople = props.trip.filter(
     (val) => val.tripId === props.user.currentTripId
   )[0].peopleList;
-  console.log(arrOfPeople);
+
   return (
     <div>
       <Button onClick={() => setAddPerson(!addPerson)}>

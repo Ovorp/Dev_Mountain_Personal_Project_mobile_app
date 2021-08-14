@@ -16,7 +16,7 @@ function JournalNavBar(props) {
       {tripId ? (
         <nav className="second-nav">
           <Nav defaultActiveKey="/" className="flex-column">
-            <LinkContainer to="/journal">
+            <LinkContainer to="/journal/sum">
               <Nav.Link>Trip Home Page</Nav.Link>
             </LinkContainer>
             <LinkContainer to="/journal/todo">
@@ -28,7 +28,7 @@ function JournalNavBar(props) {
             <LinkContainer to="/journal/trip-pic">
               <Nav.Link>Trip Pictures</Nav.Link>
             </LinkContainer>
-            <LinkContainer to="/journal">
+            <LinkContainer to="/journal/sum">
               <Nav.Link onClick={() => props.setCurrentTripId(null)}>
                 Pick a New trip
               </Nav.Link>
