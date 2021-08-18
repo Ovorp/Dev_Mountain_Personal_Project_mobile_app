@@ -76,6 +76,10 @@ app.use(express.json());
 
 // Weather endpoint open to everyone
 
+app.get('/', (req, res) => {
+  res.send('Hello, World');
+});
+
 app.get(`/api/weather/:zipCode`, (req, res) => {
   const { zipCode } = req.params;
   axios
