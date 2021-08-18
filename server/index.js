@@ -218,4 +218,6 @@ app.delete(`${IMAGE_API}/:key`, deleteImage);
 // Texting endpoints
 app.post('/api/text', sendText);
 
-app.listen(SERVER_PORT, () => console.log(`Running on port ${SERVER_PORT}`));
+let port = process.env.PORT || SERVER_PORT || 5050;
+
+app.listen(port, () => console.log(`Running on port ${port}`));
