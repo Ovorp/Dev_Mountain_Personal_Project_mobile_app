@@ -74,11 +74,13 @@ app.use(
 
 app.use(express.json());
 
+app.use(express.static(`${__dirname}/../personal-project-desktop/build`));
+
 // Weather endpoint open to everyone
 
-app.get('/', (req, res) => {
-  res.send('Hello, World');
-});
+// app.get('/', (req, res) => {
+//   res.send('Hello, World');
+// });
 
 app.get(`/api/weather/:zipCode`, (req, res) => {
   const { zipCode } = req.params;
